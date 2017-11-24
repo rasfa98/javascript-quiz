@@ -13,6 +13,7 @@ function setNickname () {
     } else {
       window.localStorage.setItem('nickname', input.value)
       document.body.removeChild(nicknameDiv)
+      document.body.appendChild(document.createElement('quiz-timer'))
     }
   })
 }
