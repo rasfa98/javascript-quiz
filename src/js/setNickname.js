@@ -11,6 +11,7 @@ function setNickname () {
       nicknameDiv.appendChild(warningText).classList.add('alert')
       input.value = ''
     } else {
+      window.localStorage.setItem('nickname', input.value)
       document.body.removeChild(nicknameDiv)
     }
   })
