@@ -1,7 +1,7 @@
 class Game {
   constructor () {
-    this.question = document.createElement('p')
-    this.questionNr = document.createElement('h2')
+    this.nextQuestionUrl = null
+    this.answer = 2
   }
 
   setNickname () {
@@ -25,10 +25,11 @@ class Game {
   }
 
   startGame () {
-    this.newQuestion()
+    this.getQuestion()
+    this.answerQuestion()
   }
 
-  newQuestion () {
+  getQuestion () {
     let config = { method: 'GET' }
 
     fetch('http://vhost3.lnu.se:20080/question/1', config)
@@ -36,11 +37,25 @@ class Game {
       return data.json()
     })
     .then(data => {
-      this.question.textContent = data.question
-      this.questionNr.textContent = `Question ${data.id}`
-      document.body.appendChild(this.questionNr)
-      document.body.appendChild(this.question)
+      console.log(data.question)
+      this.nextQuestionUrl = data.nextURL
     })
+  }
+
+  answerQuestion () {
+    let config = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({answer: this.answer})
+    }
+
+    fetch('http://vhost3.lnu.se:20080/answer/1', config)
+        .then(data => {
+          return data.json()
+        })
+        .then(data => {
+          console.log(data)
+        })
   }
 }
 
