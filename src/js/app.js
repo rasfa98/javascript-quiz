@@ -1,4 +1,5 @@
 require('./quiz-timer')
-const setNickname = require('./setNickname')
+const Game = require('./Game')
 
-setNickname()
+let game = new Game()
+game.setNickname()

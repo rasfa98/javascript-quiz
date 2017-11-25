@@ -9,7 +9,7 @@ template.innerHTML = `
   } 
 </style>
 
-<p id="timerText">1</p>
+<p id="timerText">-</p>
 `
 
 class Timer extends window.HTMLElement {
@@ -18,16 +18,9 @@ class Timer extends window.HTMLElement {
 
     this.attachShadow({mode: 'open'})
     this.shadowRoot.appendChild(template.content.cloneNode(true))
-
-    this.timer = null
-    this.timerText = this.shadowRoot.querySelector('#timerText')
-    this.counter = 2
   }
 
   connectedCallback () {
-    this.timer = setInterval(() => {
-      this.timerText.textContent = this.counter++
-    }, 1000)
   }
 }
 
