@@ -1,8 +1,7 @@
-const ajax = require('./ajax')
-
 class Game {
   constructor () {
-    this.prop = undefined
+    this.question = document.createElement('p')
+    this.questionNr = document.createElement('h2')
   }
 
   setNickname () {
@@ -26,7 +25,22 @@ class Game {
   }
 
   startGame () {
-    ajax.request()
+    this.newQuestion()
+  }
+
+  newQuestion () {
+    let config = { method: 'GET' }
+
+    fetch('http://vhost3.lnu.se:20080/question/1', config)
+    .then(data => {
+      return data.json()
+    })
+    .then(data => {
+      this.question.textContent = data.question
+      this.questionNr.textContent = `Question ${data.id}`
+      document.body.appendChild(this.questionNr)
+      document.body.appendChild(this.question)
+    })
   }
 }
 
