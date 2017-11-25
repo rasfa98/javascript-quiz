@@ -1,7 +1,11 @@
 class Game {
   constructor () {
-    this.nextQuestionUrl = null
-    this.answer = 2
+    this.nextQuestionUrl = 'http://vhost3.lnu.se:20080/question/1'
+    this.answer = null
+    this.question = null
+    this.p = document.createElement('p')
+    this.input = document.createElement('input')
+    this.button = document.createElement('button')
   }
 
   setNickname () {
@@ -19,42 +23,46 @@ class Game {
       } else {
         window.localStorage.setItem('nickname', input.value)
         document.body.removeChild(nicknameDiv)
-        this.startGame()
+        this.getQuestion(this.nextQuestionUrl)
       }
     })
   }
 
-  startGame () {
-    this.getQuestion()
-    this.answerQuestion()
+  setup () {
+    this.p.textContent = this.question
+    document.body.appendChild(this.p)
+    document.body.appendChild(this.input)
+    document.body.appendChild(this.button)
   }
 
-  getQuestion () {
+  getQuestion (url) {
     let config = { method: 'GET' }
 
-    fetch('http://vhost3.lnu.se:20080/question/1', config)
+    fetch(url, config)
     .then(data => {
       return data.json()
     })
     .then(data => {
-      console.log(data.question)
+      this.question = data.question
+      this.setup()
       this.nextQuestionUrl = data.nextURL
     })
   }
 
-  answerQuestion () {
+  answerQuestion (answer, url) {
     let config = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({answer: this.answer})
+      body: JSON.stringify({answer: answer})
     }
 
-    fetch('http://vhost3.lnu.se:20080/answer/1', config)
+    fetch(url, config)
         .then(data => {
           return data.json()
         })
         .then(data => {
           console.log(data)
+          this.nextQuestionUrl = data.nextURL
         })
   }
 }
