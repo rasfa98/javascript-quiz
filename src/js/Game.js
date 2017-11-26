@@ -28,7 +28,7 @@ class Game {
   }
 
   setup () {
-    this.clear()
+    document.body.removeChild(document.querySelector('div'))
     let div = document.createElement('div')
 
     let button = document.createElement('button')
@@ -37,7 +37,7 @@ class Game {
 
     div.appendChild(question)
     div.appendChild(input)
-    
+
     question.textContent = this.data.question
     document.body.appendChild(div)
 
@@ -47,15 +47,25 @@ class Game {
       this.answerQuestion(this.nextURL, answer)
     })
 
+    // If there are alternatives
     if (this.data.alternatives) {
+      div.removeChild(input)
+      div.removeChild(button)
       let alternatives = this.data.alternatives
+      let alternative = null
 
-      console.log(alternatives)
+      for (let i in alternatives) {
+        alternative = document.createElement('p')
+        alternative.textContent = `Press: ${i} for ${alternatives[i]}`
+        div.appendChild(alternative)
+      }
+
+      document.addEventListener('keydown', event => {
+        let keyPressed = event.keyCode
+        this.answer = String.fromCharCode(keyPressed)
+        this.answerQuestion(this.nextURL, this.answer)
+      })
     }
-  }
-
-  clear () {
-    document.body.removeChild(document.querySelector('div'))
   }
 
   gameOver () {
