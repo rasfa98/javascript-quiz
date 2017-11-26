@@ -1,13 +1,17 @@
 class Game {
   constructor () {
-    this.nextURL = 'http://vhost3.lnu.se:20080/question/1'
+    this.nextURL = null
     this.data = null
+    this.enterNicknameTemplate = document.querySelector('#nickname')
   }
 
   enterNickname () {
+    let template = document.importNode(this.enterNicknameTemplate.content, true)
+    document.body.appendChild(template)
+
     let input = document.querySelector('input')
     let button = document.querySelector('button')
-    let nicknameDiv = document.querySelector('#nickname')
+    let nicknameDiv = document.querySelector('div')
     let warningText = document.createElement('p')
 
     warningText.textContent = 'Please enter a nickname...'
@@ -24,16 +28,17 @@ class Game {
   }
 
   startGame () {
+    this.nextURL = 'http://vhost3.lnu.se:20080/question/1'
     this.getQuestion(this.nextURL)
   }
 
-  setup () {
+  addQuestion () {
     document.body.removeChild(document.querySelector('div'))
     let div = document.createElement('div')
 
     let button = document.createElement('button')
     let input = document.createElement('input')
-    let question = document.createElement('p')
+    let question = document.createElement('h2')
 
     div.appendChild(question)
     div.appendChild(input)
@@ -46,6 +51,8 @@ class Game {
       this.nextURL = this.data.nextURL
       this.answerQuestion(this.nextURL, answer)
     })
+
+    button.innerHTML = 'Answer!'
 
     // If there are alternatives
     if (this.data.alternatives) {
@@ -60,9 +67,7 @@ class Game {
         div.appendChild(alternative)
       }
 
-      document.addEventListener('keydown', event => {
-        let keyPressed = event.keyCode
-        this.answer = String.fromCharCode(keyPressed)
+      document.addEventListener('keyup', event => {
         this.answerQuestion(this.nextURL, this.answer)
       })
     }
@@ -70,9 +75,14 @@ class Game {
 
   gameOver () {
     document.body.removeChild(document.querySelector('div'))
+
+    let div = document.createElement('div')
+
     let gameOver = document.createElement('h1')
     gameOver.textContent = 'Game Over!'
-    document.body.appendChild(gameOver)
+    div.appendChild(gameOver)
+
+    document.body.appendChild(div)
   }
 
   getQuestion (url) {
@@ -84,7 +94,7 @@ class Game {
     })
     .then(data => {
       this.data = data
-      this.setup()
+      this.addQuestion()
       console.log(data)
     })
   }
