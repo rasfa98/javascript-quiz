@@ -18,7 +18,6 @@ class Game {
         input.value = ''
       } else {
         window.localStorage.setItem('nickname', input.value)
-        document.body.removeChild(nicknameDiv)
         this.startGame()
       }
     })
@@ -29,19 +28,41 @@ class Game {
   }
 
   setup () {
+    this.clear()
+    let div = document.createElement('div')
+
     let button = document.createElement('button')
     let input = document.createElement('input')
     let question = document.createElement('p')
 
+    div.appendChild(question)
+    div.appendChild(input)
+    
     question.textContent = this.data.question
-    document.body.appendChild(question)
-    document.body.appendChild(input)
+    document.body.appendChild(div)
 
-    document.body.appendChild(button).addEventListener('click', event => {
+    div.appendChild(button).addEventListener('click', event => {
       let answer = input.value
       this.nextURL = this.data.nextURL
       this.answerQuestion(this.nextURL, answer)
     })
+
+    if (this.data.alternatives) {
+      let alternatives = this.data.alternatives
+
+      console.log(alternatives)
+    }
+  }
+
+  clear () {
+    document.body.removeChild(document.querySelector('div'))
+  }
+
+  gameOver () {
+    document.body.removeChild(document.querySelector('div'))
+    let gameOver = document.createElement('h1')
+    gameOver.textContent = 'Game Over!'
+    document.body.appendChild(gameOver)
   }
 
   getQuestion (url) {
@@ -54,6 +75,7 @@ class Game {
     .then(data => {
       this.data = data
       this.setup()
+      console.log(data)
     })
   }
 
@@ -72,10 +94,11 @@ class Game {
           return data.json()
         })
         .then(data => {
-          console.log('Correct')
+          this.data = data
+          this.getQuestion(this.data.nextURL)
         })
         .catch(data => {
-          console.log('Wrong!')
+          this.gameOver()
         })
   }
 }
