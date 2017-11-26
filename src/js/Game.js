@@ -3,6 +3,8 @@ class Game {
     this.nextURL = null
     this.data = null
     this.enterNicknameTemplate = document.querySelector('#nickname')
+    this.templateQuestion = document.querySelector('#question')
+    this.templateGameOver = document.querySelector('#gameOver')
   }
 
   enterNickname () {
@@ -22,31 +24,30 @@ class Game {
         input.value = ''
       } else {
         window.localStorage.setItem('nickname', input.value)
-        this.startGame()
+        this.startNewGame()
       }
     })
   }
 
-  startGame () {
+  startNewGame () {
     this.nextURL = 'http://vhost3.lnu.se:20080/question/1'
     this.getQuestion(this.nextURL)
   }
 
   addQuestion () {
     document.body.removeChild(document.querySelector('div'))
-    let div = document.createElement('div')
 
-    let button = document.createElement('button')
-    let input = document.createElement('input')
-    let question = document.createElement('h2')
+    let template = document.importNode(this.templateQuestion.content, true)
+    document.body.appendChild(template)
 
-    div.appendChild(question)
-    div.appendChild(input)
+    this.question = document.querySelector('h2')
+    this.question.textContent = this.data.question
 
-    question.textContent = this.data.question
-    document.body.appendChild(div)
+    let button = document.querySelector('button')
+    let input = document.querySelector('input')
+    let div = document.querySelector('div')
 
-    div.appendChild(button).addEventListener('click', event => {
+    button.addEventListener('click', event => {
       let answer = input.value
       this.nextURL = this.data.nextURL
       this.answerQuestion(this.nextURL, answer)
@@ -58,31 +59,30 @@ class Game {
     if (this.data.alternatives) {
       div.removeChild(input)
       div.removeChild(button)
+
       let alternatives = this.data.alternatives
       let alternative = null
 
       for (let i in alternatives) {
         alternative = document.createElement('p')
         alternative.textContent = `Press: ${i} for ${alternatives[i]}`
+
         div.appendChild(alternative)
       }
-
-      document.addEventListener('keyup', event => {
-        this.answerQuestion(this.nextURL, this.answer)
-      })
     }
   }
 
   gameOver () {
     document.body.removeChild(document.querySelector('div'))
 
-    let div = document.createElement('div')
+    let template = document.importNode(this.templateGameOver.content, true)
+    document.body.appendChild(template)
 
-    let gameOver = document.createElement('h1')
-    gameOver.textContent = 'Game Over!'
-    div.appendChild(gameOver)
+    let button = document.querySelector('button')
 
-    document.body.appendChild(div)
+    button.addEventListener('click', event => {
+      this.startNewGame()
+    })
   }
 
   getQuestion (url) {
