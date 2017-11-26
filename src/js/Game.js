@@ -62,13 +62,26 @@ class Game {
 
       let alternatives = this.data.alternatives
       let alternative = null
+      let altCount = 1
 
       for (let i in alternatives) {
         alternative = document.createElement('p')
-        alternative.textContent = `Press: ${i} for ${alternatives[i]}`
+        alternative.textContent = `Press: ${altCount++} for ${alternatives[i]}`
 
         div.appendChild(alternative)
       }
+
+      document.addEventListener('keydown', function onKeyPress (event) {
+        let answer = event.keyCode
+        let key = String.fromCharCode(answer)
+
+        answer = `alt${key}`
+        this.nextURL = this.data.nextURL
+
+        this.answerQuestion(this.nextURL, answer)
+
+        event.currentTarget.removeEventListener(event.type, onKeyPress)
+      })
     }
   }
 
