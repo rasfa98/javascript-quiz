@@ -1,14 +1,10 @@
 class Game {
   constructor () {
-    this.nextQuestionUrl = 'http://vhost3.lnu.se:20080/question/1'
-    this.answer = null
-    this.question = null
-    this.p = document.createElement('p')
-    this.input = document.createElement('input')
-    this.button = document.createElement('button')
+    this.nextURL = 'http://vhost3.lnu.se:20080/question/1'
+    this.data = null
   }
 
-  setNickname () {
+  enterNickname () {
     let input = document.querySelector('input')
     let button = document.querySelector('button')
     let nicknameDiv = document.querySelector('#nickname')
@@ -23,16 +19,29 @@ class Game {
       } else {
         window.localStorage.setItem('nickname', input.value)
         document.body.removeChild(nicknameDiv)
-        this.getQuestion(this.nextQuestionUrl)
+        this.startGame()
       }
     })
   }
 
+  startGame () {
+    this.getQuestion(this.nextURL)
+  }
+
   setup () {
-    this.p.textContent = this.question
-    document.body.appendChild(this.p)
-    document.body.appendChild(this.input)
-    document.body.appendChild(this.button)
+    let button = document.createElement('button')
+    let input = document.createElement('input')
+    let question = document.createElement('p')
+
+    question.textContent = this.data.question
+    document.body.appendChild(question)
+    document.body.appendChild(input)
+
+    document.body.appendChild(button).addEventListener('click', event => {
+      let answer = input.value
+      this.nextURL = this.data.nextURL
+      this.answerQuestion(this.nextURL, answer)
+    })
   }
 
   getQuestion (url) {
@@ -43,13 +52,12 @@ class Game {
       return data.json()
     })
     .then(data => {
-      this.question = data.question
+      this.data = data
       this.setup()
-      this.nextQuestionUrl = data.nextURL
     })
   }
 
-  answerQuestion (answer, url) {
+  answerQuestion (url, answer) {
     let config = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -58,11 +66,16 @@ class Game {
 
     fetch(url, config)
         .then(data => {
+          if (!data.ok) {
+            throw new Error(data.statusText)
+          }
           return data.json()
         })
         .then(data => {
-          console.log(data)
-          this.nextQuestionUrl = data.nextURL
+          console.log('Correct')
+        })
+        .catch(data => {
+          console.log('Wrong!')
         })
   }
 }
