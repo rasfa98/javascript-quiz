@@ -25,5 +25,5 @@ ul {
 }
 
 .alert {
-    color: rgb(212, 16, 16);
+    border: 2px solid red;
 }
