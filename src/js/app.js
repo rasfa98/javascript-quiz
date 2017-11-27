@@ -1,5 +1,4 @@
 require('./quiz-timer')
-const Game = require('./Game')
+const loadEnterNickname = require('./loadEnterNickname')
 
-let game = new Game()
-game.enterNickname()
+loadEnterNickname.loadEnterNickname()

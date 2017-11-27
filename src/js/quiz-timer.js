@@ -1,4 +1,6 @@
 const template = document.createElement('template')
+const loadGameOver = require('./loadGameOver')
+
 template.innerHTML = `
 <style>
   :host {
@@ -35,7 +37,7 @@ class Timer extends window.HTMLElement {
     this.timer = setTimeout(() => {
       if (this.counter < 0) {
         clearTimeout(this.timer)
-        console.log('Times up')
+        loadGameOver.loadGameOver()
       } else {
         this.startTimer()
         this.timerText.textContent = this.counter--

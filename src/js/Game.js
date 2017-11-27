@@ -1,59 +1,17 @@
 const loadGameOver = require('./loadGameOver')
-const loadEnterNickname = require('./loadEnterNickname')
+const loadScoreBoard = require('./loadScoreBoard')
 
 class Game {
   constructor () {
     this.nextURL = null
     this.data = null
     this.templateQuestion = document.querySelector('#question')
-    this.templateScoreBoard = document.querySelector('#scoreBoard')
     this.onKeyPressRef = this.onKeyPress.bind(this)
-  }
-
-  enterNickname () {
-    loadEnterNickname.loadEnterNickname()
-
-    let button = document.querySelector('button')
-    let input = document.querySelector('input')
-    let nicknameDiv = document.querySelector('div')
-    let warningText = document.createElement('p')
-
-    warningText.textContent = 'Please enter a nickname...'
-
-    button.addEventListener('click', event => {
-      if (input.value.trim().length === 0) {
-        nicknameDiv.appendChild(warningText).classList.add('alert')
-        input.value = ''
-      } else {
-        this.startNewGame()
-      }
-    })
-  }
-
-  scoreBoard () {
-    document.body.removeChild(document.querySelector('div'))
-
-    let template = document.importNode(this.templateScoreBoard.content, true)
-    document.body.appendChild(template)
-
-    let li = document.createElement('li')
-    let scoreList = document.querySelector('ul')
-    li.textContent = undefined
-    scoreList.appendChild(li)
   }
 
   startNewGame () {
     this.nextURL = 'http://vhost3.lnu.se:20080/question/1'
     this.getQuestion(this.nextURL)
-  }
-
-  gameOver () {
-    loadGameOver.loadGameOver()
-    let button = document.querySelector('button')
-
-    button.addEventListener('click', event => {
-      this.startNewGame()
-    })
   }
 
   addQuestion () {
@@ -76,7 +34,6 @@ class Game {
 
     button.innerHTML = 'Answer!'
 
-    // If there are alternatives
     if (this.data.alternatives) {
       let info = document.createElement('p')
       info.textContent = 'Press the key that matches the correct alternative'
@@ -141,14 +98,14 @@ class Game {
           this.data = data
           this.nextURL = data.nextURL
 
-          if (!data.nextURL) {
-            this.scoreBoard()
-          } else {
+          if (data.nextURL) {
             this.getQuestion(this.data.nextURL)
+          } else {
+            loadScoreBoard.loadScoreBoard()
           }
         })
         .catch(data => {
-          this.gameOver()
+          loadGameOver.loadGameOver()
         })
   }
 }
