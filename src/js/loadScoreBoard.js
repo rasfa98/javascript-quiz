@@ -10,7 +10,16 @@ function loadScoreBoard () {
   let player = window.localStorage.getItem('player')
   let playerObj = JSON.parse(player)
 
-  li.textContent = `Name: ${playerObj.name}, total time: ${playerObj.time}`
+  li.textContent = playerObj.name
+
+  if (playerObj.time > 60) {
+    let min = Math.floor(playerObj.time / 60)
+    let sec = playerObj.time % 60
+    li.textContent += ` - ${min} minutes & ${sec} seconds`
+  } else {
+    li.textContent += ` - ${playerObj.time} seconds`
+  }
+
   scoreList.appendChild(li)
 }
 

@@ -1,5 +1,6 @@
 const loadGameOver = require('./loadGameOver')
 const loadScoreBoard = require('./loadScoreBoard')
+const checkForError = require('./checkForError')
 
 class Game {
   constructor () {
@@ -29,17 +30,17 @@ class Game {
 
     button.addEventListener('click', event => {
       let answer = input.value
+      checkForError.checkForError(input)
+
       this.answerQuestion(this.nextURL, answer)
     })
-
-    button.innerHTML = 'Answer!'
 
     if (this.data.alternatives) {
       let info = document.createElement('p')
       info.textContent = 'Press the key that matches the correct alternative'
+
       div.removeChild(input)
       div.removeChild(button)
-
       div.appendChild(info)
 
       let alternatives = this.data.alternatives
@@ -63,6 +64,7 @@ class Game {
     answer = `alt${key}`
 
     this.answerQuestion(this.nextURL, answer)
+
     document.removeEventListener('keydown', this.onKeyPressRef)
   }
 
@@ -81,6 +83,8 @@ class Game {
   }
 
   answerQuestion (url, answer) {
+    answer.trim()
+
     let config = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
