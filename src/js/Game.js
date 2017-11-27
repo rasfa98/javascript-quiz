@@ -5,6 +5,7 @@ class Game {
     this.enterNicknameTemplate = document.querySelector('#nickname')
     this.templateQuestion = document.querySelector('#question')
     this.templateGameOver = document.querySelector('#gameOver')
+    this.onKeyPressRef = this.onKeyPress.bind(this)
   }
 
   enterNickname () {
@@ -71,18 +72,20 @@ class Game {
         div.appendChild(alternative)
       }
 
-      document.addEventListener('keydown', function onKeyPress (event) {
-        let answer = event.keyCode
-        let key = String.fromCharCode(answer)
-
-        answer = `alt${key}`
-        this.nextURL = this.data.nextURL
-
-        this.answerQuestion(this.nextURL, answer)
-
-        event.currentTarget.removeEventListener(event.type, onKeyPress)
-      })
+      document.addEventListener('keydown', this.onKeyPressRef)
     }
+  }
+
+  onKeyPress (event) {
+    let answer = event.keyCode
+    let key = String.fromCharCode(answer)
+
+    answer = `alt${key}`
+    this.nextURL = this.data.nextURL
+
+    this.answerQuestion(this.nextURL, answer)
+
+    document.removeEventListener('keydown', this.onKeyPressRef)
   }
 
   gameOver () {
