@@ -1,20 +1,20 @@
+const loadGameOver = require('./loadGameOver')
+const loadEnterNickname = require('./loadEnterNickname')
+
 class Game {
   constructor () {
     this.nextURL = null
     this.data = null
-    this.enterNicknameTemplate = document.querySelector('#nickname')
     this.templateQuestion = document.querySelector('#question')
-    this.templateGameOver = document.querySelector('#gameOver')
     this.templateScoreBoard = document.querySelector('#scoreBoard')
     this.onKeyPressRef = this.onKeyPress.bind(this)
   }
 
   enterNickname () {
-    let template = document.importNode(this.enterNicknameTemplate.content, true)
-    document.body.appendChild(template)
+    loadEnterNickname.loadEnterNickname()
 
-    let input = document.querySelector('input')
     let button = document.querySelector('button')
+    let input = document.querySelector('input')
     let nicknameDiv = document.querySelector('div')
     let warningText = document.createElement('p')
 
@@ -25,8 +25,6 @@ class Game {
         nicknameDiv.appendChild(warningText).classList.add('alert')
         input.value = ''
       } else {
-        // let player = {name: input.value, time: '1.00'}
-        // window.localStorage.setItem('player', JSON.stringify(player))
         this.startNewGame()
       }
     })
@@ -38,9 +36,6 @@ class Game {
     let template = document.importNode(this.templateScoreBoard.content, true)
     document.body.appendChild(template)
 
-    // let names = window.localStorage.getItem('player')
-    // let namesObject = JSON.parse(names)
-
     let li = document.createElement('li')
     let scoreList = document.querySelector('ul')
     li.textContent = undefined
@@ -50,6 +45,15 @@ class Game {
   startNewGame () {
     this.nextURL = 'http://vhost3.lnu.se:20080/question/1'
     this.getQuestion(this.nextURL)
+  }
+
+  gameOver () {
+    loadGameOver.loadGameOver()
+    let button = document.querySelector('button')
+
+    button.addEventListener('click', event => {
+      this.startNewGame()
+    })
   }
 
   addQuestion () {
@@ -103,19 +107,6 @@ class Game {
 
     this.answerQuestion(this.nextURL, answer)
     document.removeEventListener('keydown', this.onKeyPressRef)
-  }
-
-  gameOver () {
-    document.body.removeChild(document.querySelector('div'))
-
-    let template = document.importNode(this.templateGameOver.content, true)
-    document.body.appendChild(template)
-
-    let button = document.querySelector('button')
-
-    button.addEventListener('click', event => {
-      this.startNewGame()
-    })
   }
 
   getQuestion (url) {
