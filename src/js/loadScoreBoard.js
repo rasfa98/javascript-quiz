@@ -7,7 +7,10 @@ function loadScoreBoard () {
   let li = document.createElement('li')
   let scoreList = document.querySelector('ul')
 
-  li.textContent = undefined
+  let player = window.localStorage.getItem('player')
+  let playerObj = JSON.parse(player)
+
+  li.textContent = `Name: ${playerObj.name}, total time: ${playerObj.time}`
   scoreList.appendChild(li)
 }
 
