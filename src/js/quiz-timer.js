@@ -9,7 +9,7 @@ template.innerHTML = `
   } 
 </style>
 
-<p id="timerText">-</p>
+<p id="timerText">20</p>
 `
 
 class Timer extends window.HTMLElement {
@@ -18,9 +18,29 @@ class Timer extends window.HTMLElement {
 
     this.attachShadow({mode: 'open'})
     this.shadowRoot.appendChild(template.content.cloneNode(true))
+    this.timer = null
+    this.counter = 19
+    this.timerText = this.shadowRoot.querySelector('#timerText')
   }
 
   connectedCallback () {
+    this.startTimer()
+  }
+
+  disconnectedCallback () {
+    clearTimeout(this.timer)
+  }
+
+  startTimer () {
+    this.timer = setTimeout(() => {
+      if (this.counter < 0) {
+        clearTimeout(this.timer)
+        console.log('Times up')
+      } else {
+        this.startTimer()
+        this.timerText.textContent = this.counter--
+      }
+    }, 1000)
   }
 }
 

@@ -25,8 +25,8 @@ class Game {
         nicknameDiv.appendChild(warningText).classList.add('alert')
         input.value = ''
       } else {
-        let player = {name: input.value, time: '1.00'}
-        window.localStorage.setItem('player', JSON.stringify(player))
+        // let player = {name: input.value, time: '1.00'}
+        // window.localStorage.setItem('player', JSON.stringify(player))
         this.startNewGame()
       }
     })
@@ -38,11 +38,12 @@ class Game {
     let template = document.importNode(this.templateScoreBoard.content, true)
     document.body.appendChild(template)
 
+    // let names = window.localStorage.getItem('player')
+    // let namesObject = JSON.parse(names)
+
     let li = document.createElement('li')
-    let names = window.localStorage.getItem('player')
-    let namesObject = JSON.parse(names)
-    li.textContent = `${namesObject.name} - ${namesObject.time}`
     let scoreList = document.querySelector('ul')
+    li.textContent = undefined
     scoreList.appendChild(li)
   }
 
@@ -120,7 +121,7 @@ class Game {
   getQuestion (url) {
     let config = { method: 'GET' }
 
-    fetch(url, config)
+    window.fetch(url, config)
     .then(data => {
       return data.json()
     })
@@ -138,7 +139,7 @@ class Game {
       body: JSON.stringify({answer: answer})
     }
 
-    fetch(url, config)
+    window.fetch(url, config)
         .then(data => {
           if (!data.ok) {
             throw new Error(data.statusText)
