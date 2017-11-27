@@ -19,6 +19,8 @@ function loadEnterNickname () {
       nicknameDiv.appendChild(warningText).classList.add('alert')
       input.value = ''
     } else {
+      let player = {name: input.value, time: 0}
+      window.localStorage.setItem('player', JSON.stringify(player))
       game.startNewGame()
     }
   })
