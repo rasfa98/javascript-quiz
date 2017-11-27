@@ -5,6 +5,7 @@ class Game {
     this.enterNicknameTemplate = document.querySelector('#nickname')
     this.templateQuestion = document.querySelector('#question')
     this.templateGameOver = document.querySelector('#gameOver')
+    this.templateScoreBoard = document.querySelector('#scoreBoard')
     this.onKeyPressRef = this.onKeyPress.bind(this)
   }
 
@@ -30,6 +31,18 @@ class Game {
     })
   }
 
+  scoreBoard () {
+    document.body.removeChild(document.querySelector('div'))
+
+    let template = document.importNode(this.templateScoreBoard.content, true)
+    document.body.appendChild(template)
+
+    let li = document.createElement('li')
+    li.textContent = window.localStorage.getItem('nickname')
+    let scoreList = document.querySelector('ul')
+    scoreList.appendChild(li)
+  }
+
   startNewGame () {
     this.nextURL = 'http://vhost3.lnu.se:20080/question/1'
     this.getQuestion(this.nextURL)
@@ -50,7 +63,6 @@ class Game {
 
     button.addEventListener('click', event => {
       let answer = input.value
-      this.nextURL = this.data.nextURL
       this.answerQuestion(this.nextURL, answer)
     })
 
@@ -79,12 +91,9 @@ class Game {
   onKeyPress (event) {
     let answer = event.keyCode
     let key = String.fromCharCode(answer)
-
     answer = `alt${key}`
-    this.nextURL = this.data.nextURL
 
     this.answerQuestion(this.nextURL, answer)
-
     document.removeEventListener('keydown', this.onKeyPressRef)
   }
 
@@ -110,6 +119,7 @@ class Game {
     })
     .then(data => {
       this.data = data
+      this.nextURL = data.nextURL
       this.addQuestion()
       console.log(data)
     })
@@ -131,7 +141,13 @@ class Game {
         })
         .then(data => {
           this.data = data
-          this.getQuestion(this.data.nextURL)
+          this.nextURL = data.nextURL
+
+          if (!data.nextURL) {
+            this.scoreBoard()
+          } else {
+            this.getQuestion(this.data.nextURL)
+          }
         })
         .catch(data => {
           this.gameOver()
