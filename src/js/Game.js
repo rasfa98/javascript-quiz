@@ -25,7 +25,8 @@ class Game {
         nicknameDiv.appendChild(warningText).classList.add('alert')
         input.value = ''
       } else {
-        window.localStorage.setItem('nickname', input.value)
+        let player = {name: input.value, time: '1.00'}
+        window.localStorage.setItem('player', JSON.stringify(player))
         this.startNewGame()
       }
     })
@@ -38,7 +39,9 @@ class Game {
     document.body.appendChild(template)
 
     let li = document.createElement('li')
-    li.textContent = window.localStorage.getItem('nickname')
+    let names = window.localStorage.getItem('player')
+    let namesObject = JSON.parse(names)
+    li.textContent = `${namesObject.name} - ${namesObject.time}`
     let scoreList = document.querySelector('ul')
     scoreList.appendChild(li)
   }
@@ -70,8 +73,12 @@ class Game {
 
     // If there are alternatives
     if (this.data.alternatives) {
+      let info = document.createElement('p')
+      info.textContent = 'Press the key that matches the correct alternative'
       div.removeChild(input)
       div.removeChild(button)
+
+      div.appendChild(info)
 
       let alternatives = this.data.alternatives
       let alternative = null
@@ -79,7 +86,7 @@ class Game {
 
       for (let i in alternatives) {
         alternative = document.createElement('p')
-        alternative.textContent = `Press: ${altCount++} for ${alternatives[i]}`
+        alternative.textContent = `${altCount++} - "${alternatives[i]}"`
 
         div.appendChild(alternative)
       }
@@ -121,7 +128,6 @@ class Game {
       this.data = data
       this.nextURL = data.nextURL
       this.addQuestion()
-      console.log(data)
     })
   }
 
