@@ -4,12 +4,24 @@ function loadScoreBoard () {
   let template = document.importNode(templateScoreBoard.content, true)
   document.body.appendChild(template)
 
+  let button = document.querySelector('button')
+
+  button.addEventListener('click', event => {
+    console.log('Starta nytt spel...')
+  })
+
   let players = JSON.parse(window.localStorage.getItem('players'))
   let counter = 0
 
   players.sort((a, b) => {
     return a.time - b.time
   })
+
+  if (players.length > 5) {
+    for (let i = 4; i < players.length; i++) {
+      players.pop()
+    }
+  }
 
   players.forEach(current => {
     let newLi = document.createElement('li')

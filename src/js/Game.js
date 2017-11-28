@@ -4,14 +4,13 @@ const checkForError = require('./checkForError')
 
 class Game {
   constructor () {
-    this.nextURL = null
+    this.nextURL = 'http://vhost3.lnu.se:20080/question/1'
     this.data = null
     this.templateQuestion = document.querySelector('#question')
     this.onKeyPressRef = this.onKeyPress.bind(this)
   }
 
   startNewGame () {
-    this.nextURL = 'http://vhost3.lnu.se:20080/question/1'
     this.getQuestion(this.nextURL)
   }
 
