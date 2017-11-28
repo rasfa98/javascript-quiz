@@ -32,12 +32,12 @@ class Timer extends window.HTMLElement {
   disconnectedCallback () {
     clearTimeout(this.timer)
 
-    let player = window.localStorage.getItem('player')
-    let playerObj = JSON.parse(player)
-    let currentTime = (20 - this.counter) + 1
-    playerObj.time += currentTime
-    window.localStorage.removeItem('player')
-    window.localStorage.setItem('player', JSON.stringify(playerObj))
+    // let player = window.localStorage.getItem('player')
+    // let playerObj = JSON.parse(player)
+    // let currentTime = (20 - this.counter) + 1
+    // playerObj.time += currentTime
+    // window.localStorage.removeItem('player')
+    // window.localStorage.setItem('player', JSON.stringify(playerObj))
   }
 
   startTimer () {

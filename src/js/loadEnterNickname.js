@@ -14,8 +14,15 @@ function loadEnterNickname () {
   button.addEventListener('click', event => {
     checkForError.checkForError(input)
 
-    let player = {name: input.value, time: 0}
-    window.localStorage.setItem('player', JSON.stringify(player))
+    if (window.localStorage.getItem('counter')) {
+      console.log('uppdatera')
+      let stored = window.localStorage.getItem('counter')
+      window.localStorage.setItem('counter', parseInt(stored) + 1)
+    } else {
+      console.log('ny')
+      window.localStorage.setItem('counter', 1)
+    }
+
     game.startNewGame()
   })
 }
