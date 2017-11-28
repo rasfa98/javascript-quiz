@@ -15,12 +15,21 @@ function loadEnterNickname () {
     checkForError.checkForError(input)
 
     if (window.localStorage.getItem('counter')) {
-      console.log('uppdatera')
       let stored = window.localStorage.getItem('counter')
       window.localStorage.setItem('counter', parseInt(stored) + 1)
     } else {
-      console.log('ny')
-      window.localStorage.setItem('counter', 1)
+      window.localStorage.setItem('counter', 0)
+    }
+
+    if (window.localStorage.getItem('players')) {
+      let storedJSON = window.localStorage.getItem('players')
+      let storedObj = JSON.parse(storedJSON)
+
+      storedObj.push({name: input.value, time: 0})
+      window.localStorage.setItem('players', JSON.stringify(storedObj))
+    } else {
+      let players = [{name: input.value, time: 0}]
+      window.localStorage.setItem('players', JSON.stringify(players))
     }
 
     game.startNewGame()
