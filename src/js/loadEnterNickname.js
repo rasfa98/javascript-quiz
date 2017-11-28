@@ -1,5 +1,6 @@
 const Game = require('./Game')
 const checkForError = require('./checkForError')
+const localStorage = require('./localStorage')
 
 function loadEnterNickname () {
   let game = new Game()
@@ -13,25 +14,7 @@ function loadEnterNickname () {
 
   button.addEventListener('click', event => {
     checkForError.checkForError(input)
-
-    if (window.localStorage.getItem('counter')) {
-      let stored = window.localStorage.getItem('counter')
-      window.localStorage.setItem('counter', parseInt(stored) + 1)
-    } else {
-      window.localStorage.setItem('counter', 0)
-    }
-
-    if (window.localStorage.getItem('players')) {
-      let storedJSON = window.localStorage.getItem('players')
-      let storedObj = JSON.parse(storedJSON)
-
-      storedObj.push({name: input.value, time: 0})
-      window.localStorage.setItem('players', JSON.stringify(storedObj))
-    } else {
-      let players = [{name: input.value, time: 0}]
-      window.localStorage.setItem('players', JSON.stringify(players))
-    }
-
+    localStorage.localStorage()
     game.startNewGame()
   })
 }
