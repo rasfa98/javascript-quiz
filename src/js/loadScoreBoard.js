@@ -11,7 +11,7 @@ function loadScoreBoard () {
   })
 
   let players = JSON.parse(window.localStorage.getItem('players'))
-  let counter = 0
+  let liCounter = 0
 
   players.sort((a, b) => {
     return a.time - b.time
@@ -21,6 +21,9 @@ function loadScoreBoard () {
     for (let i = 4; i < players.length; i++) {
       players.pop()
     }
+
+    window.localStorage.setItem('counter', 4)
+    window.localStorage.setItem('players', JSON.stringify(players))
   }
 
   players.forEach(current => {
@@ -28,7 +31,7 @@ function loadScoreBoard () {
     let scoreBoard = document.querySelector('ul')
     scoreBoard.appendChild(newLi)
 
-    let liText = document.querySelectorAll('li')[counter++]
+    let liText = document.querySelectorAll('li')[liCounter++]
 
     liText.textContent = current.name
 
