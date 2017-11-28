@@ -1,6 +1,6 @@
-const loadGameOver = require('./loadGameOver')
-const loadScoreBoard = require('./loadScoreBoard')
 const checkForError = require('./checkForError')
+const loadGameOver = require('./setup')
+const loadScoreBoard = require('./setup')
 
 class Game {
   constructor () {
@@ -36,7 +36,7 @@ class Game {
 
     if (this.data.alternatives) {
       let info = document.createElement('p')
-      info.textContent = 'Press the key that matches the correct alternative'
+      info.textContent = 'Press the key that matches the correct answer'
 
       div.removeChild(input)
       div.removeChild(button)
@@ -48,7 +48,8 @@ class Game {
 
       for (let i in alternatives) {
         alternative = document.createElement('p')
-        alternative.textContent = `${altCount++} - "${alternatives[i]}"`
+        alternative.classList.add('key')
+        alternative.textContent = `NumKey: ${altCount++} Answer: "${alternatives[i]}"`
 
         div.appendChild(alternative)
       }

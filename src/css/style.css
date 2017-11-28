@@ -14,7 +14,7 @@ p {
 
 li {
     color: rgb(233, 233, 233);
-    padding: 0px;
+    padding: 10px;
     margin: 0px;
 }
 
@@ -24,6 +24,17 @@ ul {
     padding: 0px;
 }
 
+button {
+    margin: 4px;
+}
+
 .alert {
     border: 2px solid red;
+}
+
+.key {
+    padding: 10px;
+    background-color: #1e1e1e;
+    color: rgb(212, 16, 16);
+    border: 1px solid rgb(233, 233, 233);;
 }

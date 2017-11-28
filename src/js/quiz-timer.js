@@ -1,5 +1,5 @@
 const template = document.createElement('template')
-const loadGameOver = require('./loadGameOver')
+const loadGameOver = require('./setup')
 
 template.innerHTML = `
 <style>

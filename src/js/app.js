@@ -1,4 +1,4 @@
 require('./quiz-timer')
-const loadEnterNickname = require('./loadEnterNickname')
+const loadEnterNickname = require('./setup')
 
 loadEnterNickname.loadEnterNickname()
