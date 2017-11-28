@@ -10,8 +10,14 @@ function loadScoreBoard () {
     console.log('Starta nytt spel...')
   })
 
-  let players = JSON.parse(window.localStorage.getItem('players'))
+  let nonFilteredPlayers = JSON.parse(window.localStorage.getItem('players'))
   let liCounter = 0
+
+  let players = nonFilteredPlayers.filter(current => {
+    return current.time > 0
+  })
+
+  window.localStorage.setItem('counter', players.length - 1)
 
   players.sort((a, b) => {
     return a.time - b.time
@@ -23,8 +29,9 @@ function loadScoreBoard () {
     }
 
     window.localStorage.setItem('counter', 4)
-    window.localStorage.setItem('players', JSON.stringify(players))
   }
+
+  window.localStorage.setItem('players', JSON.stringify(players))
 
   players.forEach(current => {
     let newLi = document.createElement('li')
