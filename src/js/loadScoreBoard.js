@@ -7,6 +7,10 @@ function loadScoreBoard () {
   let players = JSON.parse(window.localStorage.getItem('players'))
   let counter = 0
 
+  players.sort((a, b) => {
+    return a.time - b.time
+  })
+
   players.forEach(current => {
     let newLi = document.createElement('li')
     let scoreBoard = document.querySelector('ul')
