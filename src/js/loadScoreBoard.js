@@ -4,18 +4,31 @@ function loadScoreBoard () {
   let template = document.importNode(templateScoreBoard.content, true)
   document.body.appendChild(template)
 
-  // if (allPlayersObj.time > 60) {
-  //   let min = Math.floor(allPlayersObj.time / 60)
-  //   let sec = allPlayersObj.time % 60
+  let players = JSON.parse(window.localStorage.getItem('players'))
+  let counter = 0
 
-  //   if (min === 1) {
-  //     li.textContent += `- ${min} minute, ${sec} seconds`
-  //   } else {
-  //     li.textContent += ` - ${min} minutes, ${sec} seconds`
-  //   }
-  // } else {
-  //   li.textContent += ` - ${playerObj.time} seconds`
-  // }
+  players.forEach(current => {
+    let newLi = document.createElement('li')
+    let scoreBoard = document.querySelector('ul')
+    scoreBoard.appendChild(newLi)
+
+    let liText = document.querySelectorAll('li')[counter++]
+
+    liText.textContent = current.name
+
+    if (current.time > 60) {
+      let min = Math.floor(current.time / 60)
+      let sec = current.time % 60
+
+      if (min === 1) {
+        liText.textContent += `- ${min} minute, ${sec} seconds`
+      } else {
+        liText.textContent += ` - ${min} minutes, ${sec} seconds`
+      }
+    } else {
+      liText.textContent += ` - ${current.time} seconds`
+    }
+  })
 }
 
 // Exports
