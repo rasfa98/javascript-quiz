@@ -8,6 +8,7 @@ template.innerHTML = `
       display: inline-block;
       width: 100px;
       border: 1px solid rgb(233, 233, 233);
+      border-radius: 10px;
   } 
 </style>
 

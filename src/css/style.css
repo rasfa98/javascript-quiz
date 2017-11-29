@@ -26,6 +26,30 @@ ul {
 
 button {
     margin: 4px;
+    padding: 10px;
+    color: rgb(233, 233, 233);
+    border: 1px solid rgb(233, 233, 233);
+    background-color: #1e1e1e; 
+    font-size: 14px;
+}
+
+input {
+    padding: 10px;
+    font-size: 14px;
+    padding: 10px;
+    margin: 0px;
+    border-radius: 7px;
+    border: 2px solid rgb(233, 233, 233); 
+}
+
+input:focus {
+    outline: none;
+    border: 2px solid rgb(128, 128, 128); 
+}
+
+button:focus {
+    outline: none;
+    border: 1px solid rgb(128, 128, 128); 
 }
 
 .alert {
@@ -36,5 +60,6 @@ button {
     padding: 10px;
     background-color: #1e1e1e;
     color: rgb(212, 16, 16);
-    border: 1px solid rgb(233, 233, 233);;
+    border: 1px solid rgb(233, 233, 233);
+    border-radius: 10px;
 }
