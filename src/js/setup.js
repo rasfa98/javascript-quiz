@@ -19,10 +19,7 @@ function loadEnterNickname () {
 }
 
 function loadGameOver () {
-  let templateGameOver = document.querySelector('#gameOver')
-  document.body.removeChild(document.querySelector('div'))
-  let template = document.importNode(templateGameOver.content, true)
-  document.body.appendChild(template)
+  _addTemplate('#gameOver')
 
   _removePlayerTimes()
 
@@ -49,10 +46,7 @@ function _removePlayerTimes () {
 }
 
 function loadScoreBoard () {
-  let templateScoreBoard = document.querySelector('#scoreBoard')
-  document.body.removeChild(document.querySelector('div'))
-  let template = document.importNode(templateScoreBoard.content, true)
-  document.body.appendChild(template)
+  _addTemplate('#scoreBoard')
 
   let button = document.querySelector('button')
 
@@ -102,7 +96,15 @@ function loadScoreBoard () {
   })
 }
 
+function _addTemplate (id) {
+  let templateScoreBoard = document.querySelector(id)
+  document.body.removeChild(document.querySelector('div'))
+  let template = document.importNode(templateScoreBoard.content, true)
+  document.body.appendChild(template)
+}
+
 // Exports
 module.exports.loadEnterNickname = loadEnterNickname
 module.exports.loadGameOver = loadGameOver
 module.exports.loadScoreBoard = loadScoreBoard
+module.exports.addTemplate = _addTemplate
