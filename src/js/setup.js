@@ -21,7 +21,7 @@ function loadEnterNickname () {
 function loadGameOver () {
   _addTemplate('#gameOver')
 
-  _removePlayerTimes()
+  // _removePlayerTimes()
 
   let button = document.querySelector('button')
 
@@ -31,19 +31,19 @@ function loadGameOver () {
   })
 }
 
-function _removePlayerTimes () {
-  let nonFilteredPlayers = JSON.parse(window.localStorage.getItem('players'))
-  let counter = parseInt(window.localStorage.getItem('counter'))
+// function _removePlayerTimes () {
+//   let nonFilteredPlayers = JSON.parse(window.localStorage.getItem('players'))
+//   let counter = parseInt(window.localStorage.getItem('counter'))
 
-  nonFilteredPlayers[counter].time = 0
+//   nonFilteredPlayers[counter].time = 0
 
-  let players = nonFilteredPlayers.filter(current => {
-    return current.time > 0
-  })
+//   let players = nonFilteredPlayers.filter(current => {
+//     return current.time > 0
+//   })
 
-  window.localStorage.setItem('counter', players.length - 1)
-  window.localStorage.setItem('players', JSON.stringify(players))
-}
+//   window.localStorage.setItem('counter', players.length - 1)
+//   window.localStorage.setItem('players', JSON.stringify(players))
+// }
 
 function loadScoreBoard () {
   _addTemplate('#scoreBoard')
