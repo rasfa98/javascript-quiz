@@ -1,6 +1,5 @@
 const Game = require('./Game')
 const checkForError = require('./checkForError')
-const localStorage = require('./localStorage')
 
 function loadEnterNickname () {
   let game = new Game()
@@ -13,15 +12,13 @@ function loadEnterNickname () {
 
   button.addEventListener('click', event => {
     checkForError.checkForError(input)
-    localStorage.localStorage()
+    window.localStorage.setItem('player', JSON.stringify({name: input.value, time: 0}))
     game.startNewGame()
   })
 }
 
 function loadGameOver () {
   _addTemplate('#gameOver')
-
-  // _removePlayerTimes()
 
   let button = document.querySelector('button')
 
@@ -30,20 +27,6 @@ function loadGameOver () {
     loadEnterNickname()
   })
 }
-
-// function _removePlayerTimes () {
-//   let nonFilteredPlayers = JSON.parse(window.localStorage.getItem('players'))
-//   let counter = parseInt(window.localStorage.getItem('counter'))
-
-//   nonFilteredPlayers[counter].time = 0
-
-//   let players = nonFilteredPlayers.filter(current => {
-//     return current.time > 0
-//   })
-
-//   window.localStorage.setItem('counter', players.length - 1)
-//   window.localStorage.setItem('players', JSON.stringify(players))
-// }
 
 function loadScoreBoard () {
   _addTemplate('#scoreBoard')
@@ -55,45 +38,53 @@ function loadScoreBoard () {
     loadEnterNickname()
   })
 
-  let players = JSON.parse(window.localStorage.getItem('players'))
-  let liCounter = 0
+  let player = JSON.parse(window.localStorage.getItem('player'))
+  let scoreBoard = window.localStorage.getItem('scoreBoard')
 
-  players.sort((a, b) => {
+  if (window.localStorage.getItem('scoreBoard')) {
+    scoreBoard = JSON.parse(window.localStorage.getItem('scoreBoard'))
+    scoreBoard.push(player)
+  } else {
+    scoreBoard = []
+    scoreBoard.push(player)
+  }
+
+  window.localStorage.setItem('scoreBoard', JSON.stringify(scoreBoard))
+
+  scoreBoard.sort((a, b) => {
     return a.time - b.time
   })
 
-  if (players.length > 5) {
-    for (let i = 4; i < players.length; i++) {
-      players.pop()
+  if (scoreBoard.length > 5) {
+    for (let i = 4; i < scoreBoard.length; i++) {
+      scoreBoard.pop()
     }
-
-    window.localStorage.setItem('counter', 4)
   }
 
-  window.localStorage.setItem('players', JSON.stringify(players))
+  let list = document.querySelector('ul')
 
-  players.forEach(current => {
+  for (let i = 0; i < scoreBoard.length; i++) {
     let newLi = document.createElement('li')
-    let scoreBoard = document.querySelector('ul')
-    scoreBoard.appendChild(newLi)
+    list.appendChild(newLi)
 
-    let liText = document.querySelectorAll('li')[liCounter++]
+    let score = document.querySelectorAll('li')[i]
+    score.textContent = scoreBoard[i].name
 
-    liText.textContent = current.name
-
-    if (current.time > 60) {
-      let min = Math.floor(current.time / 60)
-      let sec = current.time % 60
+    if (scoreBoard[i].time > 60) {
+      let min = Math.floor(scoreBoard[i].time / 60)
+      let sec = scoreBoard[i].time % 60
 
       if (min === 1) {
-        liText.textContent += `- ${min} minute, ${sec} seconds`
+        score.textContent += `- ${min} minute, ${sec} seconds`
       } else {
-        liText.textContent += ` - ${min} minutes, ${sec} seconds`
+        score.textContent += ` - ${min} minutes, ${sec} seconds`
       }
     } else {
-      liText.textContent += ` - ${current.time} seconds`
+      score.textContent += ` - ${scoreBoard[i].time} seconds`
     }
-  })
+  }
+
+  window.localStorage.setItem('scoreBoard', JSON.stringify(scoreBoard))
 }
 
 function _addTemplate (id) {

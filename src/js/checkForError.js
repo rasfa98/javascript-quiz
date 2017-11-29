@@ -3,7 +3,7 @@ function checkForError (inputType) {
     inputType.value = ''
     inputType.classList.add('alert')
 
-    throw new Error('Please enter some information in the input field.')
+    throw new Error('Please enter something in the input field...')
   }
 }
 
