@@ -7,6 +7,7 @@ class Game {
     this.nextURL = 'http://vhost3.lnu.se:20080/question/1'
     this.data = null
     this.templateQuestion = document.querySelector('#question')
+    this.templateQuestionAlt = document.querySelector('#questionAlt')
     this.onKeyPressRef = this.onKeyPress.bind(this)
   }
 
@@ -17,30 +18,12 @@ class Game {
   addQuestion () {
     document.body.removeChild(document.querySelector('div'))
 
-    let template = document.importNode(this.templateQuestion.content, true)
-    document.body.appendChild(template)
-
-    this.question = document.querySelector('h2')
-    this.question.textContent = this.data.question
-
-    let button = document.querySelector('button')
-    let input = document.querySelector('input')
-    let div = document.querySelector('div')
-
-    button.addEventListener('click', event => {
-      let answer = input.value
-      checkForError.checkForError(input)
-
-      this.answerQuestion(this.nextURL, answer)
-    })
-
     if (this.data.alternatives) {
-      let info = document.createElement('p')
-      info.textContent = 'Press the key that matches the correct answer'
+      let template = document.importNode(this.templateQuestionAlt.content, true)
+      document.body.appendChild(template)
 
-      div.removeChild(input)
-      div.removeChild(button)
-      div.appendChild(info)
+      let question = document.querySelector('h2')
+      question.textContent = this.data.question
 
       let alternatives = this.data.alternatives
       let alternative = null
@@ -51,10 +34,26 @@ class Game {
         alternative.classList.add('key')
         alternative.textContent = `NumKey: ${altCount++} Answer: "${alternatives[i]}"`
 
-        div.appendChild(alternative)
+        document.querySelector('div').appendChild(alternative)
       }
 
       document.addEventListener('keydown', this.onKeyPressRef)
+    } else {
+      let template = document.importNode(this.templateQuestion.content, true)
+      document.body.appendChild(template)
+
+      let question = document.querySelector('h2')
+      question.textContent = this.data.question
+
+      let button = document.querySelector('button')
+      let input = document.querySelector('input')
+
+      button.addEventListener('click', event => {
+        let answer = input.value
+        checkForError.checkForError(input)
+
+        this.answerQuestion(this.nextURL, answer)
+      })
     }
   }
 
