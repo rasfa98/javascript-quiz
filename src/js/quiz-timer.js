@@ -1,5 +1,5 @@
 const template = document.createElement('template')
-const loadGameOver = require('./setup')
+const setup = require('./setup')
 
 template.innerHTML = `
 <style>
@@ -46,7 +46,7 @@ class Timer extends window.HTMLElement {
     this.timer = setTimeout(() => {
       if (this.timeCounter < 0) {
         clearTimeout(this.timer)
-        loadGameOver.loadGameOver()
+        setup.loadGameOver()
       } else {
         this.startTimer()
       }

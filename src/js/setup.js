@@ -51,9 +51,7 @@ function loadScoreBoard () {
 
   window.localStorage.setItem('scoreBoard', JSON.stringify(scoreBoard))
 
-  scoreBoard.sort((a, b) => {
-    return a.time - b.time
-  })
+  scoreBoard.sort((a, b) => a.time - b.time)
 
   if (scoreBoard.length > 5) {
     for (let i = 4; i < scoreBoard.length; i++) {

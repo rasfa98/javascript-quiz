@@ -1,6 +1,5 @@
 const checkForError = require('./checkForError')
-const loadGameOver = require('./setup')
-const loadScoreBoard = require('./setup')
+const setup = require('./setup')
 
 class Game {
   constructor () {
@@ -16,11 +15,8 @@ class Game {
   }
 
   addQuestion () {
-    document.body.removeChild(document.querySelector('div'))
-
     if (this.data.alternatives) {
-      let template = document.importNode(this.templateQuestionAlt.content, true)
-      document.body.appendChild(template)
+      setup.addTemplate('#questionAlt')
 
       let question = document.querySelector('h2')
       question.textContent = this.data.question
@@ -32,15 +28,14 @@ class Game {
       for (let i in alternatives) {
         alternative = document.createElement('p')
         alternative.classList.add('key')
-        alternative.textContent = `NumKey: ${altCount++} Answer: "${alternatives[i]}"`
+        alternative.textContent = `Key: ${altCount++} Answer: "${alternatives[i]}"`
 
         document.querySelector('div').appendChild(alternative)
       }
 
       document.addEventListener('keydown', this.onKeyPressRef)
     } else {
-      let template = document.importNode(this.templateQuestion.content, true)
-      document.body.appendChild(template)
+      setup.addTemplate('#question')
 
       let question = document.querySelector('h2')
       question.textContent = this.data.question
@@ -59,11 +54,9 @@ class Game {
 
   onKeyPress (event) {
     let answer = event.keyCode
-    let key = String.fromCharCode(answer)
-    answer = `alt${key}`
+    answer = `alt${String.fromCharCode(answer)}`
 
     this.answerQuestion(this.nextURL, answer)
-
     document.removeEventListener('keydown', this.onKeyPressRef)
   }
 
@@ -71,9 +64,7 @@ class Game {
     let config = { method: 'GET' }
 
     window.fetch(url, config)
-    .then(data => {
-      return data.json()
-    })
+    .then(data => data.json())
     .then(data => {
       this.data = data
       this.nextURL = data.nextURL
@@ -82,12 +73,10 @@ class Game {
   }
 
   answerQuestion (url, answer) {
-    answer.trim()
-
     let config = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({answer: answer})
+      body: JSON.stringify({answer: answer.trim()})
     }
 
     window.fetch(url, config)
@@ -104,12 +93,10 @@ class Game {
           if (data.nextURL) {
             this.getQuestion(this.data.nextURL)
           } else {
-            loadScoreBoard.loadScoreBoard()
+            setup.loadScoreBoard()
           }
         })
-        .catch(data => {
-          loadGameOver.loadGameOver()
-        })
+        .catch(data => setup.loadGameOver())
   }
 }
 
