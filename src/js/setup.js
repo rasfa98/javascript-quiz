@@ -17,7 +17,6 @@
   * @throws {Error} The input field can't be empty.
   */
  function loadEnterNickname () {
-   let game = new Game()
    let templateEnterNickname = document.querySelector('#nickname')
    let template = document.importNode(templateEnterNickname.content, true)
    document.body.appendChild(template)
@@ -28,12 +27,12 @@
    button.addEventListener('click', event => {
      checkForError.checkForError(input)
      window.localStorage.setItem('player', JSON.stringify({name: input.value, time: 0}))
-     game.startNewGame()
+     new Game().startNewGame()
    })
  }
 
  /**
-  * Loads the game over screen.
+  * Loads the game-over screen.
   */
  function loadGameOver () {
    _addTemplate('#gameOver')
@@ -73,12 +72,7 @@
    window.localStorage.setItem('scoreBoard', JSON.stringify(scoreBoard))
 
    scoreBoard.sort((a, b) => a.time - b.time)
-
-   if (scoreBoard.length > 5) {
-     for (let i = 4; i < scoreBoard.length; i++) {
-       scoreBoard.pop()
-     }
-   }
+   scoreBoard = scoreBoard.slice(0, 5)
 
    let list = document.querySelector('ul')
 
@@ -87,7 +81,7 @@
      list.appendChild(newLi)
 
      let score = document.querySelectorAll('li')[i]
-     score.textContent = scoreBoard[i].name
+     score.textContent = `(${i + 1}) ${scoreBoard[i].name}`
 
      if (scoreBoard[i].time > 60) {
        let min = Math.floor(scoreBoard[i].time / 60)

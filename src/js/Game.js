@@ -124,6 +124,7 @@
           if (!data.ok) {
             throw new Error(data.statusText)
           }
+
           return data.json()
         })
         .then(data => {
