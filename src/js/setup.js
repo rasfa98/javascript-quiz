@@ -26,7 +26,7 @@
 
    button.addEventListener('click', event => {
      checkForError.checkForInputError(input)
-     window.localStorage.setItem('player', JSON.stringify({name: input.value, time: 0}))
+     window.localStorage.setItem('player', JSON.stringify({name: input.value, time: 0, date: new Date()}))
      new Game().startNewGame()
    })
  }
@@ -46,7 +46,7 @@
  }
 
  /**
-  * Loads the scoreboard and adds the names and times to both the board, and in the browsers storage.
+  * Loads the scoreboard and adds the names, times and dates to both the board, and in the browsers storage.
   */
  function loadScoreBoard () {
    _addTemplate('#scoreBoard')
@@ -81,20 +81,22 @@
      list.appendChild(newLi)
 
      let score = document.querySelectorAll('li')[i]
-     score.textContent = `(${i + 1}) ${scoreBoard[i].name}`
+     score.textContent = `(${i + 1}) ${scoreBoard[i].name}, `
 
      if (scoreBoard[i].time > 60) {
        let min = Math.floor(scoreBoard[i].time / 60)
        let sec = scoreBoard[i].time % 60
 
        if (min === 1) {
-         score.textContent += `- ${min} minute, ${sec} seconds`
+         score.textContent += `${min} minute, ${sec} seconds`
        } else {
-         score.textContent += ` - ${min} minutes, ${sec} seconds`
+         score.textContent += `${min} minutes, ${sec} seconds`
        }
      } else {
-       score.textContent += ` - ${scoreBoard[i].time} seconds`
+       score.textContent += `${scoreBoard[i].time} seconds`
      }
+
+     score.textContent += `, ${scoreBoard[i].date.slice(0, 10)}`
    }
 
    window.localStorage.setItem('scoreBoard', JSON.stringify(scoreBoard))
