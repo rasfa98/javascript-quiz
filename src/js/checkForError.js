@@ -31,6 +31,7 @@
   */
  function checkForKeyError (event) {
    if (event.keyCode < 49 || event.keyCode > 57) {
+     document.querySelector('p').classList.toggle('warning')
      throw new Error('Please press any of the number keys from 1 to 9...')
    }
  }
