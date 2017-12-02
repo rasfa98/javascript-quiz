@@ -14,7 +14,7 @@
   * @param {object} inputType
   * @throws {Error} The input field can't be empty.
   */
- function checkForError (inputType) {
+ function checkForInputError (inputType) {
    if (inputType.value.trim().length === 0) {
      inputType.value = ''
      inputType.classList.add('alert')
@@ -23,5 +23,18 @@
    }
  }
 
+ /**
+  * Checks if the keyboard input is any of the keys from 1 to 9.
+  *
+  * @param {object} event
+  * @throws {Error} Any of the keys with number 1 to 9 must be pressed.
+  */
+ function checkForKeyError (event) {
+   if (event.keyCode < 49 || event.keyCode > 57) {
+     throw new Error('Please press any of the number keys from 1 to 9...')
+   }
+ }
+
  // Exports
- module.exports.checkForError = checkForError
+ module.exports.checkForInputError = checkForInputError
+ module.exports.checkForKeyError = checkForKeyError

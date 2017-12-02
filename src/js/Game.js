@@ -37,6 +37,8 @@
 
    /**
     * Adds the given question to the DOM.
+    *
+    * @throws {Error} Any of the keys with number 1 to 9 must be pressed.
     */
    addQuestion () {
      if (this.data.alternatives) {
@@ -69,7 +71,7 @@
 
        button.addEventListener('click', event => {
          let answer = input.value
-         checkForError.checkForError(input)
+         checkForError.checkForInputError(input)
 
          this.answerQuestion(this.nextURL, answer)
        })
@@ -80,8 +82,10 @@
     * Converts the pressed key to an answer.
     *
     * @param {KeyboardEvent} event
+    * @throws {Error} Any of the keys with number 1 to 9 must be pressed.
     */
    onKeyPress (event) {
+     checkForError.checkForKeyError(event)
      let answer = event.keyCode
      answer = `alt${String.fromCharCode(answer)}`
 

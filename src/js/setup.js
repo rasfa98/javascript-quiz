@@ -25,7 +25,7 @@
    let input = document.querySelector('input')
 
    button.addEventListener('click', event => {
-     checkForError.checkForError(input)
+     checkForError.checkForInputError(input)
      window.localStorage.setItem('player', JSON.stringify({name: input.value, time: 0}))
      new Game().startNewGame()
    })
