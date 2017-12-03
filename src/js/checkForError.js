@@ -1,5 +1,5 @@
 /**
- * Module used for checking the given input.
+ * Module used for checking the given input for errors.
  *
  * @module src/js/checkForError
  * @author Rasmus Falk
@@ -9,12 +9,12 @@
  'use strict'
 
  /**
-  * Checks if the input is empty when clicking the button.
+  * Checks if the input field is empty when clicking the button.
   *
   * @param {object} inputType
   * @throws {Error} The input field can't be empty.
   */
- function checkForInputError (inputType) {
+ function checkForTextError (inputType) {
    if (inputType.value.trim().length === 0) {
      inputType.value = ''
      inputType.classList.add('alert')
@@ -45,5 +45,5 @@
  }
 
  // Exports
- module.exports.checkForInputError = checkForInputError
+ module.exports.checkForTextError = checkForTextError
  module.exports.checkForKeyError = checkForKeyError

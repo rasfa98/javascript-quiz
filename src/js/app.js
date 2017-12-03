@@ -9,6 +9,6 @@
  'use strict'
 
  require('./quiz-timer')
- const loadEnterNickname = require('./setup')
+ const setup = require('./setup')
 
- loadEnterNickname.loadEnterNickname()
+ setup.loadEnterNickname()

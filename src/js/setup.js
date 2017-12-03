@@ -12,20 +12,18 @@
  const checkForError = require('./checkForError')
 
  /**
-  * Loads the screen where you can enter your nickname.
+  * Loads the screen where you can enter your nickname for the quiz.
   *
   * @throws {Error} The input field can't be empty.
   */
  function loadEnterNickname () {
-   let templateEnterNickname = document.querySelector('#nickname')
-   let template = document.importNode(templateEnterNickname.content, true)
-   document.body.appendChild(template)
+   _addTemplate('#nickname')
 
    let button = document.querySelector('button')
    let input = document.querySelector('input')
 
    button.addEventListener('click', event => {
-     checkForError.checkForInputError(input)
+     checkForError.checkForTextError(input)
      window.localStorage.setItem('player', JSON.stringify({name: input.value, time: 0, date: new Date()}))
      new Game().startNewGame()
    })
@@ -59,7 +57,7 @@
    })
 
    let player = JSON.parse(window.localStorage.getItem('player'))
-   let scoreBoard = window.localStorage.getItem('scoreBoard')
+   let scoreBoard
 
    if (window.localStorage.getItem('scoreBoard')) {
      scoreBoard = JSON.parse(window.localStorage.getItem('scoreBoard'))
@@ -68,8 +66,6 @@
      scoreBoard = []
      scoreBoard.push(player)
    }
-
-   window.localStorage.setItem('scoreBoard', JSON.stringify(scoreBoard))
 
    scoreBoard.sort((a, b) => a.time - b.time)
    scoreBoard = scoreBoard.slice(0, 5)
@@ -110,9 +106,12 @@
   * @param {string} id - The ID of the template that will be added.
   */
  function _addTemplate (id) {
-   let templateScoreBoard = document.querySelector(id)
-   document.body.removeChild(document.querySelector('div'))
-   let template = document.importNode(templateScoreBoard.content, true)
+   if (document.querySelector('div')) {
+     document.body.removeChild(document.querySelector('div'))
+   }
+
+   let templateClone = document.querySelector(id)
+   let template = document.importNode(templateClone.content, true)
    document.body.appendChild(template)
  }
 
