@@ -58,7 +58,7 @@
 
      let player = JSON.parse(window.localStorage.getItem('player'))
      let currentTime = (20 - this.timeCounter)
-     player.time += currentTime
+     player.time += Math.round(currentTime * 10) / 10
 
      window.localStorage.setItem('player', JSON.stringify(player))
    }
@@ -67,7 +67,7 @@
     * Starts the timer.
     */
    startTimer () {
-     this.timerText.textContent = this.timeCounter--
+     this.timerText.textContent = Math.round((this.timeCounter -= 0.1) * 10) / 10
 
      this.timer = setTimeout(() => {
        if (this.timeCounter < 0) {
@@ -76,7 +76,7 @@
        } else {
          this.startTimer()
        }
-     }, 1000)
+     }, 100)
    }
 }
 
