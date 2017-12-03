@@ -25,16 +25,22 @@
  }
 
  /**
-  * Checks if the keyboard input is any of the keys from 1 to 9.
+  * Checks if the keyboard input is any of the keys with number 1 to 9.
   *
   * @param {object} event
   * @throws {Error} The user must press a number key.
   */
  function checkForKeyError (event) {
    if (event.keyCode < 49 || event.keyCode > 57) {
-     document.querySelector('.warningText').style.visibility = 'visible'
+     if (!document.querySelector('.warningTextDyn')) {
+       let text = document.createElement('p')
+       document.querySelector('div').appendChild(text)
 
-     throw new Error('Please press any of the number keys from 1 to 9 to answer the given question...')
+       text.textContent = 'Please press any of the number keys (1 - 9) to answer the given question...'
+       text.classList.add('warningTextDyn')
+     }
+
+     throw new Error('Please press any of the numbers from 1 to 9 to answer the given question...')
    }
  }
 

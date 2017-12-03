@@ -80,17 +80,19 @@
      let newLi = document.createElement('li')
      list.appendChild(newLi)
 
+     scoreBoard[i].time = Math.round(scoreBoard[i].time * 10) / 10
+
      let score = document.querySelectorAll('li')[i]
      score.textContent = `(${i + 1}) ${scoreBoard[i].name}, `
 
      if (scoreBoard[i].time > 60) {
        let min = Math.floor(scoreBoard[i].time / 60)
-       let sec = scoreBoard[i].time % 60
+       let sec = Math.round((scoreBoard[i].time % 60) * 10) / 10
 
        if (min === 1) {
-         score.textContent += `${min} minute, ${sec} seconds`
+         score.textContent += `${min} minute ${sec} seconds`
        } else {
-         score.textContent += `${min} minutes, ${sec} seconds`
+         score.textContent += `${min} minutes ${sec} seconds`
        }
      } else {
        score.textContent += `${scoreBoard[i].time} seconds`
@@ -105,7 +107,7 @@
  /**
   * Adds a given template to the DOM.
   *
-  * @param {string} id
+  * @param {string} id - The ID of the template that will be added.
   */
  function _addTemplate (id) {
    let templateScoreBoard = document.querySelector(id)

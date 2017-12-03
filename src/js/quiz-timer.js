@@ -58,7 +58,7 @@
 
      let player = JSON.parse(window.localStorage.getItem('player'))
      let currentTime = (20 - this.timeCounter)
-     player.time += Math.round(currentTime * 10) / 10
+     player.time += currentTime
 
      window.localStorage.setItem('player', JSON.stringify(player))
    }

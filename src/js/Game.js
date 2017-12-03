@@ -25,7 +25,7 @@
      this.data = null
      this.templateQuestion = document.querySelector('#question')
      this.templateQuestionAlt = document.querySelector('#questionAlt')
-     this.onKeyPressRef = this.onKeyPress.bind(this)
+     this.onKeyPressRef = this._onKeyPress.bind(this)
    }
 
    /**
@@ -42,6 +42,10 @@
     */
    addQuestion () {
      if (this.data.alternatives) {
+       setTimeout(() => {
+         document.removeEventListener('keydown', this.onKeyPressRef)
+       }, 21000)
+
        setup.addTemplate('#questionAlt')
 
        let question = document.querySelector('h2')
@@ -70,8 +74,8 @@
        let input = document.querySelector('input')
 
        button.addEventListener('click', event => {
-         let answer = input.value
          checkForError.checkForInputError(input)
+         let answer = input.value
 
          this.answerQuestion(this.nextURL, answer)
        })
@@ -79,12 +83,12 @@
    }
 
    /**
-    * Converts the pressed key to an answer.
+    * Converts the pressed key to an answer and is used together with an event handler.
     *
-    * @param {KeyboardEvent} event
+    * @param {KeyboardEvent} event - The event object from the eventhandler it was used with.
     * @throws {Error} Any of the keys with number 1 to 9 must be pressed.
     */
-   onKeyPress (event) {
+   _onKeyPress (event) {
      checkForError.checkForKeyError(event)
      let answer = event.keyCode
      answer = `alt${String.fromCharCode(answer)}`
@@ -96,7 +100,7 @@
    /**
     * Get a question from the server.
     *
-    * @param {string} url
+    * @param {string} url - The URL used for getting a question.
     */
    getQuestion (url) {
      let config = { method: 'GET' }
@@ -113,8 +117,8 @@
    /**
     * Sends the given answer to the server.
     *
-    * @param {string} url
-    * @param {string} answer
+    * @param {string} url - The URL to which the answer will be sent.
+    * @param {string} answer - The answer to the question.
     */
    answerQuestion (url, answer) {
      let config = {

@@ -61,6 +61,10 @@ button:focus {
     visibility: hidden;
 }
 
+.warningTextDyn {
+    color: rgb(212, 16, 16); 
+}
+
 .key {
     padding: 10px;
     background-color: #1e1e1e;
