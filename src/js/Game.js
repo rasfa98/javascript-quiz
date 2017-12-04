@@ -24,6 +24,7 @@
      this._nextURL = 'http://vhost3.lnu.se:20080/question/1'
      this._data = null
      this._onKeyPressRef = this._onKeyPress.bind(this)
+     this._eventTimer = null
    }
 
    /**
@@ -41,7 +42,7 @@
     */
    addQuestion () {
      if (this._data.alternatives) {
-       setTimeout(() => {
+       this._eventTimer = setTimeout(() => {
          document.removeEventListener('keydown', this._onKeyPressRef)
        }, 21000)
 
@@ -92,6 +93,7 @@
      this.answerQuestion(this._nextURL, answer)
 
      document.removeEventListener('keydown', this._onKeyPressRef)
+     clearTimeout(this._eventTimer)
    }
 
    /**
