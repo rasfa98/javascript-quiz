@@ -36,6 +36,7 @@
    /**
     * Adds the given question to the DOM.
     *
+    * @throws {Error} The input field can't be empty.
     * @throws {Error} Any of the keys with number 1 to 9 must be pressed.
     */
    addQuestion () {
@@ -73,8 +74,7 @@
 
        button.addEventListener('click', event => {
          checkForError.checkForTextError(input)
-         let answer = input.value
-         this.answerQuestion(this._nextURL, answer)
+         this.answerQuestion(this._nextURL, input.value)
        })
      }
    }
