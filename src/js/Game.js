@@ -23,8 +23,6 @@
    constructor () {
      this._nextURL = 'http://vhost3.lnu.se:20080/question/1'
      this._data = null
-     this._onKeyPressRef = this._onKeyPress.bind(this)
-     this._eventTimer = null
    }
 
    /**
@@ -40,33 +38,31 @@
     * Adds the given question to the DOM.
     *
     * @throws {Error} The input field can't be empty.
-    * @throws {Error} Any of the keys with number 1 to 9 must be pressed.
     * @throws {Error} If an error with the request occures.
     */
    addQuestion () {
      if (this._data.alternatives) {
-       this._eventTimer = setTimeout(() => {
-         document.removeEventListener('keydown', this._onKeyPressRef)
-       }, 21000)
-
        setup.addTemplate('#questionAlt')
 
        let question = document.querySelector('h2')
        question.textContent = this._data.question
 
-       let alternatives = this._data.alternatives
-       let alternative = null
-       let altCount = 1
+       let section = document.querySelector('section')
 
-       for (let i in alternatives) {
-         alternative = document.createElement('p')
-         alternative.classList.add('key')
-         alternative.textContent = `Number: ${altCount++} Answer: "${alternatives[i]}"`
+       for (let i in this._data.alternatives) {
+         let altButton = document.createElement('button')
+         altButton.textContent = this._data.alternatives[i]
+         altButton.value = i
+         altButton.classList.add('altBtn')
 
-         document.querySelector('div').appendChild(alternative)
+         section.appendChild(altButton)
        }
 
-       document.addEventListener('keydown', this._onKeyPressRef)
+       section.addEventListener('click', event => {
+         if (event.currentTarget !== event.target) {
+           this.answerQuestion(this._nextURL, event.target.value)
+         }
+       })
      } else {
        setup.addTemplate('#question')
 
@@ -81,24 +77,6 @@
          this.answerQuestion(this._nextURL, input.value)
        })
      }
-   }
-
-   /**
-    * Converts the pressed key to an answer and is used together with an event handler.
-    *
-    * @param {object} event The event object from the eventhandler it was used with.
-    * @throws {Error} Any of the keys with number 1 to 9 must be pressed.
-    * @throws {Error} If an error with the request occures.
-    */
-   _onKeyPress (event) {
-     checkForError.checkForKeyError(event)
-
-     let answer = event.keyCode
-     answer = `alt${String.fromCharCode(answer)}`
-     this.answerQuestion(this._nextURL, answer)
-
-     document.removeEventListener('keydown', this._onKeyPressRef)
-     clearTimeout(this._eventTimer)
    }
 
    /**

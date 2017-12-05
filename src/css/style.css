@@ -33,6 +33,17 @@ button {
     font-size: 14px;
 }
 
+.altBtn {
+    color: rgb(212, 16, 16);
+    display: block;
+    margin: 0 auto;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom: 15px; 
+    font-size: 20px;
+}
+
 input {
     padding: 10px;
     font-size: 14px;
@@ -59,16 +70,4 @@ button:focus {
 .warningText {
     color: rgb(212, 16, 16);
     visibility: hidden;
-}
-
-.warningTextDyn {
-    color: rgb(212, 16, 16); 
-}
-
-.key {
-    padding: 10px;
-    background-color: #1e1e1e;
-    color: rgb(212, 16, 16);
-    border: 1px solid rgb(233, 233, 233);
-    border-radius: 10px;
 }
