@@ -102,7 +102,7 @@
  /**
   * Adds a given template to the DOM.
   *
-  * @param {string} id - The ID of the template that will be added.
+  * @param {string} id The ID of the template that will be added.
   */
  function _addTemplate (id) {
    if (document.querySelector('div')) {
@@ -111,6 +111,7 @@
 
    let templateClone = document.querySelector(id)
    let template = document.importNode(templateClone.content, true)
+
    document.body.appendChild(template)
  }
 

@@ -58,7 +58,7 @@
        for (let i in alternatives) {
          alternative = document.createElement('p')
          alternative.classList.add('key')
-         alternative.textContent = `Key: ${altCount++} Answer: "${alternatives[i]}"`
+         alternative.textContent = `Number: ${altCount++} Answer: "${alternatives[i]}"`
 
          document.querySelector('div').appendChild(alternative)
        }
@@ -81,13 +81,14 @@
    }
 
    /**
-    * Converts the pressed key to an answer and it is used together with an event handler.
+    * Converts the pressed key to an answer and is used together with an event handler.
     *
-    * @param {KeyboardEvent} event - The event object from the eventhandler it was used with.
+    * @param {object} event The event object from the eventhandler it was used with.
     * @throws {Error} Any of the keys with number 1 to 9 must be pressed.
     */
    _onKeyPress (event) {
      checkForError.checkForKeyError(event)
+
      let answer = event.keyCode
      answer = `alt${String.fromCharCode(answer)}`
      this.answerQuestion(this._nextURL, answer)
@@ -97,9 +98,9 @@
    }
 
    /**
-    * Get a question from the server.
+    * Gets a question from the server.
     *
-    * @param {string} url - The URL used for getting a question.
+    * @param {string} url The URL used for getting a question.
     */
    getQuestion (url) {
      let config = { method: 'GET' }
@@ -116,8 +117,8 @@
    /**
     * Sends the given answer to the server.
     *
-    * @param {string} url - The URL to which the answer will be sent.
-    * @param {string} answer - The answer to the question.
+    * @param {string} url The URL to which the answer will be sent.
+    * @param {string} answer The answer to the question.
     */
    answerQuestion (url, answer) {
      let config = {
@@ -139,7 +140,7 @@
           this._nextURL = data.nextURL
 
           if (data.nextURL) {
-            this.getQuestion(this._data.nextURL)
+            this.getQuestion(data.nextURL)
           } else {
             setup.loadScoreBoard()
           }

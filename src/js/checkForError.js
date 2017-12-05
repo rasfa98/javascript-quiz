@@ -11,13 +11,13 @@
  /**
   * Checks if the input field is empty when clicking the button.
   *
-  * @param {object} inputType
+  * @param {object} textInput The input field that will be checked.
   * @throws {Error} The input field can't be empty.
   */
- function checkForTextError (inputType) {
-   if (inputType.value.trim().length === 0) {
-     inputType.value = ''
-     inputType.classList.add('alert')
+ function checkForTextError (textInput) {
+   if (textInput.value.trim().length === 0) {
+     textInput.value = ''
+     textInput.classList.add('alert')
      document.querySelector('.warningText').style.visibility = 'visible'
 
      throw new Error('Please enter something in the input field...')
@@ -27,7 +27,7 @@
  /**
   * Checks if the keyboard input is any of the keys with number 1 to 9.
   *
-  * @param {object} event
+  * @param {object} event The event object from the eventhandler it was used with.
   * @throws {Error} The user must press a number key.
   */
  function checkForKeyError (event) {
@@ -36,7 +36,7 @@
        let text = document.createElement('p')
        document.querySelector('div').appendChild(text)
 
-       text.textContent = 'Please press any of the number keys (1 - 9) to answer the given question...'
+       text.textContent = 'Please press any of the numberkeys (1 - 9, located under F1, F2, F3 etc...) to answer the given question...'
        text.classList.add('warningTextDyn')
      }
 
