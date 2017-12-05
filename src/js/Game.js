@@ -29,6 +29,8 @@
 
    /**
     * Starts a new game.
+    *
+    * @throws {Error} If an error with the request occures.
     */
    startNewGame () {
      this.getQuestion(this._nextURL)
@@ -39,6 +41,7 @@
     *
     * @throws {Error} The input field can't be empty.
     * @throws {Error} Any of the keys with number 1 to 9 must be pressed.
+    * @throws {Error} If an error with the request occures.
     */
    addQuestion () {
      if (this._data.alternatives) {
@@ -85,6 +88,7 @@
     *
     * @param {object} event The event object from the eventhandler it was used with.
     * @throws {Error} Any of the keys with number 1 to 9 must be pressed.
+    * @throws {Error} If an error with the request occures.
     */
    _onKeyPress (event) {
      checkForError.checkForKeyError(event)
@@ -101,12 +105,19 @@
     * Gets a question from the server.
     *
     * @param {string} url The URL used for getting a question.
+    * @throws {Error} If an error with the request occures.
     */
    getQuestion (url) {
      let config = { method: 'GET' }
 
      window.fetch(url, config)
-    .then(data => data.json())
+    .then(data => {
+      if (!data.ok) {
+        throw new Error(data.statusText)
+      }
+
+      return data.json()
+    })
     .then(data => {
       this._data = data
       this._nextURL = data.nextURL
@@ -119,6 +130,7 @@
     *
     * @param {string} url The URL to which the answer will be sent.
     * @param {string} answer The answer to the question.
+    * @throws {Error} If an error with the request occures.
     */
    answerQuestion (url, answer) {
      let config = {
