@@ -51,7 +51,6 @@
    let button = document.querySelector('button')
 
    button.addEventListener('click', event => {
-     document.body.removeChild(document.querySelector('div'))
      loadEnterNickname()
    })
 
