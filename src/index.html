@@ -1,55 +1,59 @@
 <!doctype html>
 <html lang="">
-    <head>
-        <meta charset="utf-8">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="css/style.css">
+<head>
+    <meta charset="utf-8">
+    <title>JavaScript quiz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
 
-        <template id="nickname">
-            <div>
-                <h1>Quiz</h1>
-                <p>Please enter your prefered nickname:</p>
-                <input type="text" placeholder="nickname...">
-                <button>Start quiz!</button>
-                <p class="warningText">Please enter a nickname for the quiz...</p>
-            </div>
-        </template>
-        <template id="question">
-            <div>
-                <quiz-timer></quiz-timer>
-                <h2>Question</h2>
-                <input type="text" placeholder="answer...">
-                <button>Answer question</button>
-                <p class="warningText">Please enter something in the input field...</p>
-            </div>
-        </template>
-        <template id="questionAlt">
-            <div>
-                <quiz-timer></quiz-timer>
-                <h2>Question</h2>
-                <p>Press the button that matches the correct alternative...</p>
-                <section></section>
-            </div>
-        </template>
-        <template id="gameOver">
-            <div>
-                <h1>Game Over!</h1>
-                <button>Play again?</button>
-            </div>
-        </template>
-        <template id="scoreBoard">
-            <div>
-                <h2>Top 5 times:</h2>
-                <ul>
-                </ul>
-                <button>Play again?</button>
-            </div>
-        </template>
-    </head>
-    <body>
-        <script src="build.js"></script>
-    </body>
+    <script src="polyfills/custom-elements-min.js"></script>
+    <script src="polyfills/shadydom.min.js"></script>
+
+    <template id="nickname">
+        <div>
+            <h1>Quiz</h1>
+            <p>Please enter your prefered nickname:</p>
+            <input type="text" placeholder="nickname...">
+            <button>Start quiz!</button>
+            <p class="warningText">Please enter a nickname for the quiz...</p>
+        </div>
+    </template>
+    <template id="question">
+        <div>
+            <quiz-timer></quiz-timer>
+            <h2>Question</h2>
+            <input type="text" placeholder="answer...">
+            <button>Answer question</button>
+            <p class="warningText">Please enter something in the input field...</p>
+        </div>
+    </template>
+    <template id="questionAlt">
+        <div>
+            <quiz-timer></quiz-timer>
+            <h2>Question</h2>
+            <p>Press the button that matches the correct alternative...</p>
+            <section></section>
+        </div>
+    </template>
+    <template id="gameOver">
+        <div>
+            <h1>Game Over!</h1>
+            <button>Play again?</button>
+        </div>
+    </template>
+    <template id="scoreBoard">
+        <div>
+            <h2>Top 5 times:</h2>
+            <ul>
+            </ul>
+            <button>Play again?</button>
+        </div>
+    </template>
+</head>
+
+<body>
+    <script src="build.js"></script>
+</body>
+
 </html>
