@@ -71,3 +71,11 @@ button:focus {
     color: rgb(212, 16, 16);
     visibility: hidden;
 }
+
+quiz-timer {
+    color: rgb(233, 233, 233);
+    display: inline-block;
+    width: 100px;
+    border: 1px solid rgb(233, 233, 233);
+    border-radius: 10px;
+} 
